@@ -8,3 +8,13 @@ E:\Git\Pri-US\Pri-US\C Sharp\CrouchingTiger\obj\Debug\CrouchingTiger.csproj.Core
 E:\Git\Pri-US\Pri-US\C Sharp\CrouchingTiger\obj\Debug\CrouchingTiger.exe
 E:\Git\Pri-US\Pri-US\C Sharp\CrouchingTiger\obj\Debug\CrouchingTiger.pdb
 E:\Git\Pri-US\Pri-US\C Sharp\CrouchingTiger\obj\Debug\CrouchingTiger.MineTrace.resources
+E:\Git\ProjetS1\Pri-US\C Sharp\CrouchingTiger\bin\Debug\CrouchingTiger.exe.config
+E:\Git\ProjetS1\Pri-US\C Sharp\CrouchingTiger\bin\Debug\CrouchingTiger.exe
+E:\Git\ProjetS1\Pri-US\C Sharp\CrouchingTiger\bin\Debug\CrouchingTiger.pdb
+E:\Git\ProjetS1\Pri-US\C Sharp\CrouchingTiger\obj\Debug\CrouchingTiger.csprojAssemblyReference.cache
+E:\Git\ProjetS1\Pri-US\C Sharp\CrouchingTiger\obj\Debug\CrouchingTiger.MineTrace.resources
+E:\Git\ProjetS1\Pri-US\C Sharp\CrouchingTiger\obj\Debug\CrouchingTiger.Properties.Resources.resources
+E:\Git\ProjetS1\Pri-US\C Sharp\CrouchingTiger\obj\Debug\CrouchingTiger.csproj.GenerateResource.cache
+E:\Git\ProjetS1\Pri-US\C Sharp\CrouchingTiger\obj\Debug\CrouchingTiger.csproj.CoreCompileInputs.cache
+E:\Git\ProjetS1\Pri-US\C Sharp\CrouchingTiger\obj\Debug\CrouchingTiger.exe
+E:\Git\ProjetS1\Pri-US\C Sharp\CrouchingTiger\obj\Debug\CrouchingTiger.pdb
