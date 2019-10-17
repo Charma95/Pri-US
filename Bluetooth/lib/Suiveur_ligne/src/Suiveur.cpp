@@ -1,5 +1,4 @@
 #include <LibRobus.h>
-#include <Arduino.h>
 
 void SuiveurInit()
 {
@@ -8,5 +7,5 @@ void SuiveurInit()
 
 int LireSuiveur() 
 {
-    Serial.Print(analogRead(A0));
+    Serial.print(analogRead(A0));
 }
