@@ -1,0 +1,57 @@
+{
+    "configurations": [
+        {
+            "name": "!!! WARNING !!! AUTO-GENERATED FILE, PLEASE DO NOT MODIFY IT AND USE https://docs.platformio.org/page/projectconf/section_env_build.html#build-flags"
+        },
+        {
+            "name": "Win32",
+            "includePath": [
+                "C:/Users/Yorick Milot/Desktop/Session 1 GE/Projet/Pri-US/Bluetooth/src",
+                "C:/Users/Yorick Milot/Desktop/Session 1 GE/Projet/Pri-US/Bluetooth/lib/ServoControl/src",
+                "C:/Users/Yorick Milot/Desktop/Session 1 GE/Projet/Pri-US/Bluetooth/build/piolibdeps/megaatmega2560/LibRobus/src",
+                "C:/Users/Yorick Milot/.platformio/packages/framework-arduinoavr/libraries/__cores__/arduino/SoftwareSerial/src",
+                "C:/Users/Yorick Milot/.platformio/packages/framework-arduinoavr/libraries/__cores__/arduino/SPI/src",
+                "C:/Users/Yorick Milot/.platformio/packages/framework-arduinoavr/libraries/__cores__/arduino/Wire/src",
+                "C:/Users/Yorick Milot/.platformio/packages/framework-arduinoavr/cores/arduino",
+                "C:/Users/Yorick Milot/.platformio/packages/framework-arduinoavr/variants/mega",
+                "C:/Users/Yorick Milot/Desktop/Session 1 GE/Projet/Pri-US/Bluetooth/lib/Suiveur_ligne/src",
+                "C:/Users/Yorick Milot/.platformio/packages/framework-arduinoavr/libraries/__cores__/arduino/EEPROM/src",
+                "C:/Users/Yorick Milot/.platformio/packages/framework-arduinoavr/libraries/__cores__/arduino/HID/src",
+                "C:/Users/Yorick Milot/.platformio/packages/tool-unity",
+                ""
+            ],
+            "browse": {
+                "limitSymbolsToIncludedHeaders": true,
+                "path": [
+                    "C:/Users/Yorick Milot/Desktop/Session 1 GE/Projet/Pri-US/Bluetooth/src",
+                    "C:/Users/Yorick Milot/Desktop/Session 1 GE/Projet/Pri-US/Bluetooth/lib/ServoControl/src",
+                    "C:/Users/Yorick Milot/Desktop/Session 1 GE/Projet/Pri-US/Bluetooth/build/piolibdeps/megaatmega2560/LibRobus/src",
+                    "C:/Users/Yorick Milot/.platformio/packages/framework-arduinoavr/libraries/__cores__/arduino/SoftwareSerial/src",
+                    "C:/Users/Yorick Milot/.platformio/packages/framework-arduinoavr/libraries/__cores__/arduino/SPI/src",
+                    "C:/Users/Yorick Milot/.platformio/packages/framework-arduinoavr/libraries/__cores__/arduino/Wire/src",
+                    "C:/Users/Yorick Milot/.platformio/packages/framework-arduinoavr/cores/arduino",
+                    "C:/Users/Yorick Milot/.platformio/packages/framework-arduinoavr/variants/mega",
+                    "C:/Users/Yorick Milot/Desktop/Session 1 GE/Projet/Pri-US/Bluetooth/lib/Suiveur_ligne/src",
+                    "C:/Users/Yorick Milot/.platformio/packages/framework-arduinoavr/libraries/__cores__/arduino/EEPROM/src",
+                    "C:/Users/Yorick Milot/.platformio/packages/framework-arduinoavr/libraries/__cores__/arduino/HID/src",
+                    "C:/Users/Yorick Milot/.platformio/packages/tool-unity",
+                    ""
+                ]
+            },
+            "defines": [
+                "PLATFORMIO=40003",
+                "ARDUINO_AVR_MEGA2560",
+                "F_CPU=16000000L",
+                "ARDUINO_ARCH_AVR",
+                "ARDUINO=10805",
+                "__AVR_ATmega2560__",
+                ""
+            ],
+            "intelliSenseMode": "clang-x64",
+            "cStandard": "c11",
+            "cppStandard": "c++11",
+            "compilerPath": "\"C:/Users/Yorick Milot/.platformio/packages/toolchain-atmelavr/bin/avr-gcc.exe\" -mmcu=atmega2560"
+        }
+    ],
+    "version": 4
+}
