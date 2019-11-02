@@ -12,8 +12,7 @@ Inclure les librairies de functions que vous voulez utiliser
 
 #include <LibRobus.h> // Essentielle pour utiliser RobUS
 #include <ServoControl.h>
-
-
+#include "Lift.h"
 
 
 /* ****************************************************************************
@@ -49,6 +48,15 @@ void setup()
 {
   BoardInit();
   Serial.begin(9600); // Setup communication with computer to present results serial monitor
+  SERVO_Enable(0);
+
+  trouverBallon();
+
+  float distanceBallon = 0;
+  distanceBallon = placerBallonDroit();
+
+  souleverBallon(distanceBallon);
+
 }
 
 
@@ -59,19 +67,20 @@ Fonctions de boucle infini (loop())
 
 void loop()
 {
+
 //  int val;
 //  GP2D12=read_gp2d12_range(0);
 //  a=GP2D12/10;
 //  b=GP2D12%10;
 //  val=a*10+b;
 //  if(val>10&&val<80)
- {
-  valeurbrute k = ROBUS_ReadIR(0);
+ /*{
+  valeurbrute = ROBUS_ReadIR(0);
 
    Serial.println(valeurbrute);//
    //Serial.print(b,DEC);//
    //Serial.println("cm");//
- }
+ }*/
 //  else Serial.println("over");//
 //  delay(50);
 // }
