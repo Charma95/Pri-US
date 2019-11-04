@@ -1,5 +1,5 @@
 #include <LibRobus.h>
-#include <Suiveur.h>
+#include "Suiveur.h"
 #define VMOY 0.4
 #define K 100
 
@@ -59,12 +59,13 @@ void LireSuiveur()
 
 void SuitLigne()
 {   
+    LireSuiveur();
     if (Suiveur.corr == 5)
     {
         MOTOR_SetSpeed(0,0);
         MOTOR_SetSpeed(1,0);
     }
     MOTOR_SetSpeed(0,VMOY);
-    MOTOR_SetSpeed(1,(VMOY+((Suiveur.corr/Suiveur.etat)/K));
+    MOTOR_SetSpeed(1,(VMOY+((Suiveur.corr)/K));
     delay(500);
 }

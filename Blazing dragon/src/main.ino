@@ -48,7 +48,7 @@ void setup()
 {
   BoardInit();
   Serial.begin(9600); // Setup communication with computer to present results serial monitor
-  SERVO_Enable(0);
+  /*SERVO_Enable(0);
 
   SERVO_SetAngle(0, ANGLE_SOL);
   delay(1000);
@@ -58,7 +58,9 @@ void setup()
   deposerBallon();
 
 
-  delay(100000);
+  delay(100000);*/
+
+  
 }
 
 void loop()
