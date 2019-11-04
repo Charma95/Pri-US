@@ -27,9 +27,38 @@ ERROR_T Error = NONE;
 /* ****************************************************************************
 Vos propres fonctions sont creees ici
 **************************************************************************** */
-void maFonction()
+float valeursensor(int sens)
 {
-  // code
+   unsigned int valeurbrute;
+   unsigned int moyenne_valeurbrute = 0;
+   float valeur_cm = 0;
+   if (sens == 0 )
+   {
+   for (int i = 0; i < 100; i++)
+  {
+    valeurbrute = ROBUS_ReadIR(0);
+    moyenne_valeurbrute = (valeurbrute + moyenne_valeurbrute);
+  }
+    moyenne_valeurbrute =  moyenne_valeurbrute / 100;
+    //inverse et ensuite on multiplie par 4600 pour avoir une valeur en cm pour les sensor 0
+    valeur_cm = (1.0/moyenne_valeurbrute)*4600.0;
+    return (valeur_cm);
+   }
+   
+ 
+  if ( sens == 1)
+  {
+  for (int i = 0; i < 100; i++)
+  {
+    valeurbrute = ROBUS_ReadIR(1);
+    moyenne_valeurbrute = (valeurbrute + moyenne_valeurbrute);
+  }
+    moyenne_valeurbrute =  moyenne_valeurbrute / 100;
+    //inverse et ensuite on multiplie par 4600 pour avoir une valeur en cm pour le sensor 1
+    valeur_cm = (1.0/moyenne_valeurbrute)*6500.0;
+   return (valeur_cm);
+  }
+delay(1000);
 }
 
 
@@ -44,49 +73,58 @@ Fonctions d'initialisation (setup)
 #include <Arduino.h>
 //char GP2D12;
 //char a,b;
-unsigned int valeurbrute;
+
+
 void setup()
 {
   BoardInit();
   Serial.begin(9600); // Setup communication with computer to present results serial monitor
 }
 
-
-/* ****************************************************************************
-Fonctions de boucle infini (loop())
-**************************************************************************** */
-// -> Se fait appeler perpetuellement suite au "setup"
-
 void loop()
 {
-//  int val;
-//  GP2D12=read_gp2d12_range(0);
-//  a=GP2D12/10;
-//  b=GP2D12%10;
-//  val=a*10+b;
-//  if(val>10&&val<80)
- {
-  valeurbrute k = ROBUS_ReadIR(0);
-
-   Serial.println(valeurbrute);//
-   //Serial.print(b,DEC);//
-   //Serial.println("cm");//
- }
-//  else Serial.println("over");//
-//  delay(50);
-// }
-// float read_gp2d12_range(byte pin)
-// {
-//  int tmp;
-//  tmp = analogRead(pin);
-//  if (tmp < 3)return -1;
-//  return (6787.0 /((float)tmp - 3.0)) - 4.0;
-delay(500);
+   unsigned int valeur_1= valeursensor(0);
+   unsigned int valeur_2= valeursensor(1);
+   
+   if (valeur_1 > 30 && valeur_2  > 30)
+   {
+     MOTOR_SetSpeed(0, 0.2);
+     MOTOR_SetSpeed(1, 0.2);  
+     delay (200);
+   }
+   // turn 
+   if ( valeur_1 < 30 && valeur_2 > 30 )
+   {
+     while (ENCODER_Read(1) <= 3200 )
+     {
+        MOTOR_SetSpeed(0, 0.0);
+        MOTOR_SetSpeed(1, 0.2); 
+     }   
+     delay (1000);
+   }
+   //turn 
+     if ( valeur_2 < 30 && valeur_1 > 30)
+   {
+    while (ENCODER_Read(0) <= 3200 )
+     {
+        MOTOR_SetSpeed(0, 0.2);
+        MOTOR_SetSpeed(1, 0.0); 
+     } 
+     delay (100);
+   }
+   if (valeur_1 < 15 && valeur_2 < 15) 
+   {
+     while (ENCODER_Read(1) <= 3200 )
+     {
+        MOTOR_SetSpeed(0, -0.2);
+        MOTOR_SetSpeed(1, 0.2); 
+     }
+      delay(200);
+     
+   }
+  Serial.println(valeursensor(1));
+  Serial.println(valeursensor(0));
+  delay (200);
+  robotReset();
 }
-  // halfRoundTrip();
-  // uTurn();
-  // robotReset(); 
-  // straightLine(100, 0.3);
-  // robotReset();
-  // straightLine(100, 0.3);
   
