@@ -12,7 +12,9 @@ Inclure les librairies de functions que vous voulez utiliser
 
 #include <LibRobus.h> // Essentielle pour utiliser RobUS
 #include <ServoControl.h>
+#include "Mouvement.h"
 #include "Lift.h"
+#include "IRsensor.h"
 
 
 /* ****************************************************************************
@@ -26,39 +28,7 @@ ERROR_T Error = NONE;
 /* ****************************************************************************
 Vos propres fonctions sont creees ici
 **************************************************************************** */
-float valeursensor(int sens)
-{
-   unsigned int valeurbrute;
-   unsigned int moyenne_valeurbrute = 0;
-   float valeur_cm = 0;
-   if (sens == 0 )
-   {
-   for (int i = 0; i < 100; i++)
-  {
-    valeurbrute = ROBUS_ReadIR(0);
-    moyenne_valeurbrute = (valeurbrute + moyenne_valeurbrute);
-  }
-    moyenne_valeurbrute =  moyenne_valeurbrute / 100;
-    //inverse et ensuite on multiplie par 4600 pour avoir une valeur en cm pour les sensor 0
-    valeur_cm = (1.0/moyenne_valeurbrute)*4600.0;
-    return (valeur_cm);
-   }
-   
- 
-  if ( sens == 1)
-  {
-  for (int i = 0; i < 100; i++)
-  {
-    valeurbrute = ROBUS_ReadIR(1);
-    moyenne_valeurbrute = (valeurbrute + moyenne_valeurbrute);
-  }
-    moyenne_valeurbrute =  moyenne_valeurbrute / 100;
-    //inverse et ensuite on multiplie par 4600 pour avoir une valeur en cm pour le sensor 1
-    valeur_cm = (1.0/moyenne_valeurbrute)*6500.0;
-   return (valeur_cm);
-  }
-delay(1000);
-}
+
 
 
 /* ****************************************************************************
@@ -80,13 +50,15 @@ void setup()
   Serial.begin(9600); // Setup communication with computer to present results serial monitor
   SERVO_Enable(0);
 
-  trouverBallon();
+  SERVO_SetAngle(0, ANGLE_SOL);
+  delay(1000);
 
-  float distanceBallon = 0;
-  distanceBallon = placerBallonDroit();
+  souleverBallon(10);
+  avancer(30, 0.15);
+  deposerBallon();
 
-  souleverBallon(distanceBallon);
 
+  delay(100000);
 }
 
 void loop()

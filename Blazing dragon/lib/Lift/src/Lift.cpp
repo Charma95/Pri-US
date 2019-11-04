@@ -39,9 +39,11 @@ void souleverBallon(float distance)
 {
     // avancer jusqu'au ballon
     avancer(distance, 0.15);
+    delay(500);
 
     // monter le lift
     SERVO_SetAngle(0, ANGLE_ELEVATION);
+    delay(1000);
 }
 
 void deposerBallon()
