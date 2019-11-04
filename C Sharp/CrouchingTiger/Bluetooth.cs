@@ -10,6 +10,7 @@ namespace CrouchingTiger
     class Bluetooth
     {
         SerialPort _sp = new SerialPort();
+
         public enum Errors
         {
             NONE,
@@ -19,12 +20,14 @@ namespace CrouchingTiger
             READ_ERROR
         }
 
-        Errors InitBluetooth(SerialPort port)
+        public Errors InitBluetooth()
         {
+            
+
             Errors errorBt = Errors.NONE;
 
-            _sp.PortName = "COM6";   /* This is the port that I set in the bluetooth settings */
-            _sp.BaudRate = 115200;
+            _sp.PortName = "COM10";   /* This is the port that I set in the bluetooth settings */
+            _sp.BaudRate = 38400;
             _sp.Parity = Parity.None;
             _sp.StopBits = StopBits.One;
             _sp.DataBits = 8;
@@ -45,14 +48,14 @@ namespace CrouchingTiger
 
         private void DataReceivedHandler(object sender, SerialDataReceivedEventArgs e)
         {
-            string indata = _sp.ReadExisting();
-
-            throw new NotImplementedException();
+            indata += _sp.ReadExisting();
+            
         }
 
-        Errors readBluetooth()
+        public Errors readBluetooth()
         {
-
+            MineTrace _mine = new MineTrace();
+            _mine.rtbOutput.Text += indata;
             return Errors.NONE;
         }
 
@@ -63,5 +66,8 @@ namespace CrouchingTiger
 
             return errors;
         }
+
+        private string indata;
+        
     }
 }
