@@ -2,6 +2,15 @@
 
 #include <ColorSensor.h>
 
+/* Typedef */
+typedef struct 
+{
+    int kelvin;
+    char average;
+    char lux;
+}COLOR_T;
+
+
 
 /* Functions declaration*/
 bool colorSensorInit(void);
@@ -17,3 +26,6 @@ void attachInterrupt(boolean flag);
 void detachInterrupt(void);
 void setLimits(uint16_t l, uint16_t h);
 void enable(void);
+
+
+extern COLOR_T color_t;

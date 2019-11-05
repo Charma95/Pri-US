@@ -14,22 +14,60 @@ Inclure les librairies de functions que vous voulez utiliser
 #include <ServoControl.h>
 #include "Mouvement.h"
 #include "Lift.h"
+#include "Bluetooth.h"
 #include "IRsensor.h"
+#include <Arduino.h>
+#include <RGB_Sensor.h>
 
 
 /* ****************************************************************************
 Variables globales et defines
 **************************************************************************** */
 // -> defines...
-// L'ensemble des fonctions y ont acces
+// L'ensemble des fonctions y ont accesdef
 
+#define ONEMINUTE 60000 /* Softimer use milis()*/
+
+
+
+uint16_t red, green, blue, c, colorTemp, lux;
+String msg = "Le bluetooth est fonctionnel Lionel\n";
 ERROR_T Error = NONE;
 
 /* ****************************************************************************
 Vos propres fonctions sont creees ici
 **************************************************************************** */
 
-
+void bluetoothTest()
+{
+ BLUETOOTH_println(msg);   /* ne fonctionne pas faudrait voir les pins*/
+  //Serial.print(msg);
+  delay(2000);
+}
+void robotA(void)
+{
+  if(ROBUS_IsBumper(3))    /* If Tessier fessed the back bumper */
+  {
+    /* Placer robot dans la bonne couleur*/
+      tourner(69, 1);
+      avancer(69, 0.4);
+      tourner(69, 0);
+    /* Soulever le ballon */
+      souleverBallon(10);
+    /* Trouver une ligne */
+      tourner(180,1);
+      if(IsLinedetected())
+      {
+        /* Sniffer la ligne */
+        //fonction de sniffage a Yorick
+      }
+      if(centerFound())
+      {
+        /* Déposer le ballon au centre */
+      }
+  }
+  
+}
 
 /* ****************************************************************************
 Fonctions d'initialisation (setup)
@@ -39,55 +77,18 @@ Fonctions d'initialisation (setup)
 // -> Generalement on y initilise les varibbles globales
  // Arduino Code to measure distance with a Sharp GP2D12 sensor
 // www.swanrobotics.com
-#include <Arduino.h>
-//char GP2D12;
-//char a,b;
-
 
 void setup()
 {
   BoardInit();
   Serial.begin(9600); // Setup communication with computer to present results serial monitor
-  /*SERVO_Enable(0);
-
-  SERVO_SetAngle(0, ANGLE_SOL);
-  delay(1000);
-
-  souleverBallon(10);
-  avancer(30, 0.15);
-  deposerBallon();
-
-
-  delay(100000);*/
-
+  Serial2.begin(9600);
   
 }
 
 void loop()
 {
-
-//  int val;
-//  GP2D12=read_gp2d12_range(0);
-//  a=GP2D12/10;
-//  b=GP2D12%10;
-//  val=a*10+b;
-//  if(val>10&&val<80)
- /*{
-  valeurbrute = ROBUS_ReadIR(0);
-
-   Serial.println(valeurbrute);//
-   //Serial.print(b,DEC);//
-   //Serial.println("cm");//
- }*/
-//  else Serial.println("over");//
-//  delay(50);
-// }
-// float read_gp2d12_range(byte pin)
-// {
-//  int tmp;
-//  tmp = analogRead(pin);
-//  if (tmp < 3)return -1;
-//  return (6787.0 /((float)tmp - 3.0)) - 4.0;
-delay(500);
+//bluetoothTest();
+delay(10);     /* Delai pour décharger le cpu*/
 }
   

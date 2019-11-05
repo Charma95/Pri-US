@@ -7,7 +7,6 @@
 float PID();
 
 void avancer(float distance, float vitesse);
-
 int avancerVerifierBalle(float distanceMax, float vitesse);
-
 void tourner(float angleDegree, int direction);
+int find1stGoal(byte quadrant, byte angle, char color);
