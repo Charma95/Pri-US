@@ -2,7 +2,7 @@
 
 #define ANGLE_ELEVATION 5
 #define ANGLE_SOL 25
-#define DISTANCE_CENTRE_IR 10
+#define DISTANCE_CENTRE_IR 5
 
 void trouverBallon(void);
 

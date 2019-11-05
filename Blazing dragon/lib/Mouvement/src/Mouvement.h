@@ -8,6 +8,8 @@ float PID();
 
 void avancer(float distance, float vitesse);
 
+void allerscacher(float distance);
+
 int avancerVerifierBalle(float distanceMax, float vitesse);
 
 void tourner(float angleDegree, int direction);

@@ -4,13 +4,14 @@
 #include <Math.h>
 #include "Lift.h"
 #include "Mouvement.h"
+#include "IRsensor.h"
 
 void trouverBallon()
 {
-    int distanceG = 0, distanceD = 0;
+    float distanceG = 0, distanceD = 0;
 
-    distanceG = ROBUS_ReadIR(0);
-    distanceD = ROBUS_ReadIR(1);
+    distanceG = valeursensor(0);
+    distanceD = valeursensor(1);
 
     float targetPulse360 = 0;
     targetPulse360 = DR_R*COEFF_ANGLE*3200/(7.62);
@@ -29,8 +30,8 @@ void trouverBallon()
             avancerVerifierBalle(0, 0.15);
         }
 
-        distanceG = ROBUS_ReadIR(0);
-        distanceD = ROBUS_ReadIR(1);
+        distanceG = valeursensor(0);
+        distanceD = valeursensor(1);
     }
 }
 
@@ -38,8 +39,38 @@ void trouverBallon()
 void souleverBallon(float distance)
 {
     // avancer jusqu'au ballon
-    avancer(distance, 0.15);
-    delay(500);
+    int distanceG = ROBUS_ReadIR(0), distanceD = ROBUS_ReadIR(1)*2;
+    int ajout = 0.1;
+
+    MOTOR_SetSpeed(0, 0.15);
+    MOTOR_SetSpeed(1, 0.15);
+
+    while (distanceG < 550 && distanceD < 550)
+    {
+        distanceG = ROBUS_ReadIR(0);
+        distanceD = ROBUS_ReadIR(1) * 2;
+        Serial.print("gauche : ");
+        Serial.print(distanceG);
+        Serial.print("droite : ");
+        Serial.print(distanceD);
+        Serial.print("\n");
+        if (distanceG < distanceD)
+        {
+            /*MOTOR_SetSpeed(1, 0.30);
+            MOTOR_SetSpeed(0, 0.15);*/
+            tourner(3, 0);
+        }
+        else
+        {
+            /*MOTOR_SetSpeed(1, 0.15);
+            MOTOR_SetSpeed(0, 0.30);*/
+            tourner(3, 1);
+        }
+        avancer(3, 0.15);
+    }
+    
+    MOTOR_SetSpeed(0, 0);
+    MOTOR_SetSpeed(1, 0);
 
     // monter le lift
     SERVO_SetAngle(0, ANGLE_ELEVATION);
@@ -58,7 +89,7 @@ float placerBallonDroit()
     ENCODER_Reset(0);
     ENCODER_Reset(1);
 
-    int distanceG = ROBUS_ReadIR(0), distanceD = ROBUS_ReadIR(1);
+    float distanceG = ROBUS_ReadIR(0), distanceD = ROBUS_ReadIR(1)*2;
 
     if (distanceG > distanceD)
     {
@@ -71,13 +102,23 @@ float placerBallonDroit()
         MOTOR_SetSpeed(1, -0.15);
     }
 
-    while(distanceG != distanceD)
+
+
+    while(distanceG < 350 && distanceD < 350)
     {
         distanceG = ROBUS_ReadIR(0);
-        distanceD = ROBUS_ReadIR(1);
+        Serial.print(distanceG);
+        Serial.print(" ");
+        distanceD = ROBUS_ReadIR(1)*2;
+        Serial.print(distanceD);
+        Serial.print("\n");
+        delay(100);
     }
 
-    distanceBallon = sqrt(distanceD*distanceD - DISTANCE_CENTRE_IR*DISTANCE_CENTRE_IR);
+    MOTOR_SetSpeed(0, 0);
+    MOTOR_SetSpeed(1, 0);
+
+    distanceBallon = sqrt(valeursensor(0)*valeursensor(0) - DISTANCE_CENTRE_IR*DISTANCE_CENTRE_IR);
 
     return distanceBallon;
 }
