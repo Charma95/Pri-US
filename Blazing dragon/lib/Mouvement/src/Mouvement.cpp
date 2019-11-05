@@ -77,7 +77,7 @@ int avancerVerifierBalle(float distanceMax, float vitesse)
 }
 
 // direction : 0 = gauche, 1 = droit
-void tourner(int angleDegree, int direction)
+void tourner(float angleDegree, int direction)
 {
     ENCODER_Reset(0);
     ENCODER_Reset(1);
@@ -109,4 +109,16 @@ void tourner(int angleDegree, int direction)
     MOTOR_SetSpeed(0,0.0);
     MOTOR_SetSpeed(1,0.0);
     delay(300);
+}
+
+void allerscacher (float distance)
+{
+    ENCODER_Reset(0);
+    ENCODER_Reset(1);
+    int32_t clicMax = distance*COEFF_DIST*3200/(7.62*PI);
+    while (ENCODER_Read(0) != clicMax)
+    {
+        MOTOR_SetSpeed(0,-0.15);
+        MOTOR_SetSpeed(1,-0.15);
+    }
 }

@@ -6,9 +6,6 @@ Description: Breve description du script
 Date: Derniere date de modification
 */
 
-/* ****************************************************************************
-Inclure les librairies de functions que vous voulez utiliser
-**************************************************************************** */
 
 #include <LibRobus.h> // Essentielle pour utiliser RobUS
 #include <ServoControl.h>
@@ -34,9 +31,6 @@ uint16_t red, green, blue, c, colorTemp, lux;
 String msg = "Le bluetooth est fonctionnel Lionel\n";
 ERROR_T Error = NONE;
 
-/* ****************************************************************************
-Vos propres fonctions sont creees ici
-**************************************************************************** */
 
 void bluetoothTest()
 {
@@ -84,7 +78,7 @@ void setup()
   Serial.begin(9600); // Setup communication with computer to present results serial monitor
   Serial2.begin(9600);
   
-}
+  //Serial.println(ROBUS_ReadIR(0));
 
 void loop()
 {
