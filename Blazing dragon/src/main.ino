@@ -8,7 +8,7 @@ Date: Derniere date de modification
 
 
 #include <LibRobus.h> // Essentielle pour utiliser RobUS
-#include <ServoControl.h>
+#include "ServoControl.h"
 #include "Mouvement.h"
 #include "Lift.h"
 #include "Bluetooth.h"
@@ -75,6 +75,7 @@ Fonctions d'initialisation (setup)
 void setup()
 {
   BoardInit();
+  SuiveurInit();
   Serial.begin(9600); // Setup communication with computer to present results serial monitor
   Serial2.begin(9600);
   

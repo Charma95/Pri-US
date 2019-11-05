@@ -1,71 +1,73 @@
 #include <LibRobus.h>
 #include "Suiveur.h"
-#define VMOY 0.4
-#define K 100
+
+float corr;
+int etat;
 
 void SuiveurInit()
 {
-    Serial.begin(9600);
-    struct Suiveur = 
-    {
-        0,
-        1
-    };
+    corr = 0;
+    etat = 1;
 }
 
 void LireSuiveur() 
 {
-    if (analogRead(A5)<10 and analogRead(A5)>0);
+    if (analogRead(A5)<30)
         {
-            Suiveur.corr = 0;
-            Suiveur.etat += Suiveur.etat;
+            corr = 5;
+            etat += etat;
         }
-    if (analogRead(A5)<160 and analogRead(A5)>150);
+    if ((analogRead(A5)<170) && (analogRead(A5)>130))
         {
-            Suiveur.corr = 50;
-            Suiveur.etat += Suiveur.etat;
+            corr = 25;//50
+            etat += etat;
         }
-    if (analogRead(A5)<310 and analogRead(A5)>300);
+    if ((analogRead(A5)<320) && (analogRead(A5)>280))
         {
-            Suiveur.corr = 0;
-            Suiveur.etat += Suiveur.etat;
+            corr = 0;
+            etat += etat;
         }
-    if (analogRead(A5)<470 and analogRead(A5)>450);
+    if ((analogRead(A5)<470) && (analogRead(A5)>430))
         {
-            Suiveur.corr = -25;
-            Suiveur.etat += Suiveur.etat;
+            corr = -50;
+            etat += etat;
         }
-    if (analogRead(A5)<615 and analogRead(A5)>600);
+    if ((analogRead(A5)<630) && (analogRead(A5)>580))
         {
-            Suiveur.corr = -50;
-            Suiveur.etat += Suiveur.etat;
+            corr = -25;//-50
+            etat += etat;
         }
-    if (analogRead(A5)<770 and analogRead(A5)>750);
+    if ((analogRead(A5)<780) && (analogRead(A5)>740))
         {
-            Suiveur.corr = 0
-            Suiveur.etat += Suiveur.etat;
+            corr = 0;
+            etat += etat;
         }
-    if (analogRead(A5)<920 and analogRead(A5)>900);
+    if ((analogRead(A5)<930) && (analogRead(A5)>890))
         {
-            Suiveur.corr =  50;
-            Suiveur.etat += Suiveur.etat;
+            corr =  50;//50
+            etat += etat;
         }
-    if (analogRead(A5)>1020);
+    if (analogRead(A5)>1020)
         {
-            Suiveur.corr = 5;
-            Suiveur.etat += Suiveur.etat;
+            corr = 0;
+            etat += etat;
         }
 }
 
-void SuitLigne()
+void SuitLignes()
 {   
     LireSuiveur();
-    if (Suiveur.corr == 5)
+    Serial.print(analogRead(A5));
+    Serial.print("  ");
+    Serial.println(corr);
+    //Serial.println(analogRead(A5));
+    if (corr == 5)
     {
         MOTOR_SetSpeed(0,0);
         MOTOR_SetSpeed(1,0);
     }
-    MOTOR_SetSpeed(0,VMOY);
-    MOTOR_SetSpeed(1,(VMOY+((Suiveur.corr)/K));
-    delay(500);
+    else 
+    {MOTOR_SetSpeed(0,VMOY);
+    MOTOR_SetSpeed(1,(VMOY+((corr)/K)));}
+    delay(100);
 }
