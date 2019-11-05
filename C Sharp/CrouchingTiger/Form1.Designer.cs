@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MineTrace));
             this.LandMine = new System.Windows.Forms.PictureBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -39,8 +40,9 @@
             this.button2 = new System.Windows.Forms.Button();
             this.cbbFoundMine = new System.Windows.Forms.ComboBox();
             this.lblFoundMine = new System.Windows.Forms.Label();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.rtbOutput = new System.Windows.Forms.RichTextBox();
             this.lblOutput = new System.Windows.Forms.Label();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.LandMine)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -107,6 +109,7 @@
             this.button1.TabIndex = 3;
             this.button1.Text = "Start";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.Button1_Click);
             // 
             // button2
             // 
@@ -136,14 +139,14 @@
             this.lblFoundMine.TabIndex = 6;
             this.lblFoundMine.Text = "Found Mines";
             // 
-            // richTextBox1
+            // rtbOutput
             // 
-            this.richTextBox1.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.richTextBox1.Location = new System.Drawing.Point(1352, 292);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(315, 371);
-            this.richTextBox1.TabIndex = 7;
-            this.richTextBox1.Text = "";
+            this.rtbOutput.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.rtbOutput.Location = new System.Drawing.Point(1352, 292);
+            this.rtbOutput.Name = "rtbOutput";
+            this.rtbOutput.Size = new System.Drawing.Size(315, 371);
+            this.rtbOutput.TabIndex = 7;
+            this.rtbOutput.Text = "";
             // 
             // lblOutput
             // 
@@ -155,6 +158,10 @@
             this.lblOutput.TabIndex = 8;
             this.lblOutput.Text = "Output:";
             // 
+            // timer1
+            // 
+            this.timer1.Tick += new System.EventHandler(this.Timer1_Tick);
+            // 
             // MineTrace
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -162,7 +169,7 @@
             this.BackColor = System.Drawing.SystemColors.WindowFrame;
             this.ClientSize = new System.Drawing.Size(1902, 1033);
             this.Controls.Add(this.lblOutput);
-            this.Controls.Add(this.richTextBox1);
+            this.Controls.Add(this.rtbOutput);
             this.Controls.Add(this.lblFoundMine);
             this.Controls.Add(this.cbbFoundMine);
             this.Controls.Add(this.button2);
@@ -197,8 +204,9 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.ComboBox cbbFoundMine;
         private System.Windows.Forms.Label lblFoundMine;
-        private System.Windows.Forms.RichTextBox richTextBox1;
+        public System.Windows.Forms.RichTextBox rtbOutput;
         private System.Windows.Forms.Label lblOutput;
+        private System.Windows.Forms.Timer timer1;
     }
 }
 

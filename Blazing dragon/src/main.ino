@@ -53,8 +53,8 @@ void loop()
 
   delay(1000);
 
-  //testIR();
-  allerscacher (-30.0);*/
+  delay(100000);
+}
 
   delay(1000);
   SERVO_SetAngle(1, 140);
