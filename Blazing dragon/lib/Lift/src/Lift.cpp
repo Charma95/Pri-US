@@ -122,3 +122,45 @@ float placerBallonDroit()
 
     return distanceBallon;
 }
+
+void attraperBallon()
+{
+    float distanceCapteur = ROBUS_ReadIR(0);
+    float angleTourne = 0;
+    int direction = 1;
+
+    while (distanceCapteur < 150 && angleTourne < 30)
+    {
+        tourner(3, 1);
+        distanceCapteur = ROBUS_ReadIR(0);
+        angleTourne += 3;
+        direction = 1;
+    }
+    angleTourne = 0;
+    while (distanceCapteur < 150 && angleTourne < 60)
+    {
+        tourner(3, 0);
+        distanceCapteur = ROBUS_ReadIR(0);
+        angleTourne += 3;
+        direction = 0;
+    }
+    
+    tourner(3, direction);
+    MOTOR_SetSpeed(0, 0.15);
+    MOTOR_SetSpeed(1, 0.15);
+    
+    while(distanceCapteur < 500)
+    {
+        distanceCapteur = ROBUS_ReadIR(0);
+    }
+    delay(1000);
+    SERVO_SetAngle(0, ANGLE_FERME);
+    delay(500);
+    MOTOR_SetSpeed(0, 0);
+    MOTOR_SetSpeed(1, 0);
+}
+
+void lacherBallon()
+{
+    SERVO_SetAngle(0, ANGLE_OUVERT);
+}

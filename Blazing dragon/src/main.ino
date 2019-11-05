@@ -34,30 +34,22 @@ void setup()
   SERVO_Enable(0);
   SERVO_Enable(1);
 
-  SERVO_SetAngle(0, ANGLE_SOL);
-  SERVO_SetAngle(1, 180);
+  SERVO_SetAngle(0, 180);
  
 }
 
 void loop()
 {
-  /*int distanceBallon = 0;
+  attraperBallon();
+  
+  avancer(100, 0.4);
 
-  souleverBallon(distanceBallon);
+  delay(500);
+  tourner(90, 1);
 
-  avancer(30, 0.2);
-
-  delay(1000);
-
-  deposerBallon();
-
-  delay(1000);
-
-  delay(100000);
-}
-
-  delay(1000);
-  SERVO_SetAngle(1, 140);
+  avancer(30, 0.3);
+  
+  //Serial.println(ROBUS_ReadIR(0));
 
 
 
