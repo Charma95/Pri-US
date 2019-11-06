@@ -119,6 +119,8 @@ float placerBallonDroit()
 
 int attraperBallon(int robot)
 {
+    if (robot == ROBOT_A) SERVO_SetAngle(0, ANGLE_OUVERT);
+    else SERVO_SetAngle(0, ANGLE_OUVERTB);
     float distanceCapteur = ROBUS_ReadIR(0);
     float angleTourne = 0;
     int direction = 1;
@@ -148,10 +150,10 @@ int attraperBallon(int robot)
     {
         distanceCapteur = ROBUS_ReadIR(0);
     }
-    delay(1000);
+    delay(600);
     if (robot == ROBOT_A) SERVO_SetAngle(0, ANGLE_FERME);
     else SERVO_SetAngle(0, ANGLE_FERMEB);
-    delay(500);
+    if (robot == ROBOT_B) delay(500);
     MOTOR_SetSpeed(0, 0);
     MOTOR_SetSpeed(1, 0);
     return angleTourne;
@@ -159,6 +161,8 @@ int attraperBallon(int robot)
 
 void lacherBallon(int robot)
 {
+    delay(500);
     if (robot == ROBOT_A) SERVO_SetAngle(0, ANGLE_OUVERT);
     else SERVO_SetAngle(0, ANGLE_OUVERTB);
+    delay(500);
 }
