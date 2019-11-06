@@ -12,6 +12,7 @@ Date: Derniere date de modification
 #include "Mouvement.h"
 #include "Lift.h"
 #include "Bluetooth.h"
+#include "Suiveur.h"
 #include "IRsensor.h"
 #include <Arduino.h>
 #include <RGB_Sensor.h>
@@ -38,29 +39,104 @@ void bluetoothTest()
   //Serial.print(msg);
   delay(2000);
 }
-void robotA(void)
+void robotA(int couleur)
 {
   if(ROBUS_IsBumper(3))    /* If Tessier fessed the back bumper */
   {
+    /* ouvrir la pince */
+    SERVO_SetAngle(0, ANGLE_OUVERT);
+
     /* Placer robot dans la bonne couleur*/
-      tourner(69, 1);
-      avancer(69, 0.4);
-      tourner(69, 0);
+    avancer(39, 0.3);
+
+    switch(couleur)
+    {
+      case ROUGE:
+      tourner(45, 0);
+      break;
+      case VERT:
+      tourner(45, 1);
+      break;
+      case BLEU:
+      tourner(135, 1);
+      break;
+      case JAUNE:
+      tourner(135, 0);
+      break;
+      default: break;
+    }
+    avancer(120, 0.3);
     /* Soulever le ballon */
-      souleverBallon(10);
-    /* Trouver une ligne */
-      tourner(180,1);
-      if(IsLinedetected())
-      {
-        /* Sniffer la ligne */
-        //fonction de sniffage a Yorick
-      }
-      if(centerFound())
-      {
-        /* Déposer le ballon au centre */
-      }
+    attraperBallon(ROBOT_A);
+    /* Retourner au centre */
+    tourner(180,0);
+    avancer(125, 0.3);
+
+    /* Deposer la balle */
+    lacherBallon(ROBOT_A);
+
+    /* reculer */
+    allerscacher(couleur);
+    
+    delay(120000);
   }
   
+}
+
+void robotB(int couleur)
+{
+  //delay(60000);
+  SERVO_SetAngle(0, ANGLE_OUVERTB);
+  // aller se placer vis à vis la couleur
+  /*switch(couleur)
+    {
+      case ROUGE:
+      tourner(45, 0);
+      break;
+      case VERT:
+      tourner(45, 1);
+      break;
+      case BLEU:
+      tourner(135, 1);
+      break;
+      case JAUNE:
+      tourner(135, 0);
+      break;
+      default: break;
+    }*/
+    // trouver le ballon et le prendre
+    int angleTourne = 0;
+    angleTourne = attraperBallon(ROBOT_B);
+    // se réorienter
+    if (angleTourne < -15)
+    {
+      // tourner à droite
+      angleTourne *= -1;
+      tourner(angleTourne + 16, 1);
+    }
+    else if (angleTourne > 15)
+    {
+      // tourner à gauche
+      tourner(angleTourne + 13, 0);
+    }
+    else if (angleTourne < 0)
+    {
+      angleTourne *= -1;
+      tourner(angleTourne + 8, 1);
+    }
+    else if (angleTourne > 0)
+    {
+      // tourner à gauche
+      tourner(angleTourne + 5, 0);
+    }
+
+    
+    
+    // avancer jusque dans le but
+    avancer(125, 0.3);
+
+    // relacher le ballon
+    lacherBallon(ROBOT_B);
 }
 
 /* ****************************************************************************
@@ -77,13 +153,14 @@ void setup()
   BoardInit();
   SuiveurInit();
   Serial.begin(9600); // Setup communication with computer to present results serial monitor
-  Serial2.begin(9600);
-  
-  //Serial.println(ROBUS_ReadIR(0));
+
+  SERVO_Enable(0);
+}
 
 void loop()
 {
-//bluetoothTest();
-delay(10);     /* Delai pour décharger le cpu*/
+  robotB(ROUGE);
+
+  delay(10000);
 }
   

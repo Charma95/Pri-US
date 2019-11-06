@@ -45,6 +45,22 @@ void avancer(float distance, float vitesse)
     delay(100);
 }
 
+void reculer(float distance, float vitesse)
+{
+    ENCODER_Reset(0);
+    ENCODER_Reset(1);
+    int32_t clicMax =  -1 * distance*COEFF_DIST*3200/(7.62*PI);    
+    while(ENCODER_Read(1)>clicMax)
+    {
+        Serial.println(ENCODER_Read(1));
+        MOTOR_SetSpeed(1, -1 * vitesse);
+        MOTOR_SetSpeed(0, -1 * vitesse);
+    }
+    MOTOR_SetSpeed(0,0.0);
+    MOTOR_SetSpeed(1,0.0);
+    delay(100);
+}
+
 int avancerVerifierBalle(float distanceMax, float vitesse)
 {
     int balleTrouve = 0;
@@ -111,14 +127,45 @@ void tourner(float angleDegree, int direction)
     delay(300);
 }
 
-void allerscacher (float distance)
+void allerscacher (int couleur)
 {
-    ENCODER_Reset(0);
-    ENCODER_Reset(1);
-    int32_t clicMax = distance*COEFF_DIST*3200/(7.62*PI);
-    while (ENCODER_Read(0) != clicMax)
+    reculer(15, 0.3);
+    switch(couleur)
     {
-        MOTOR_SetSpeed(0,-0.15);
-        MOTOR_SetSpeed(1,-0.15);
+        case ROUGE:
+        tourner(45, 0);
+        while (!ROBUS_IsBumper(3))
+        {
+            MOTOR_SetSpeed(0, -0.2);
+            MOTOR_SetSpeed(1, -0.2);
+        }
+        break;
+        case VERT:
+        tourner(45, 1);
+        while (!ROBUS_IsBumper(3))
+        {
+            MOTOR_SetSpeed(0, -0.2);
+            MOTOR_SetSpeed(1, -0.2);
+        }
+        break;
+        case BLEU:
+        tourner(45, 0);
+        while (!ROBUS_IsBumper(3))
+        {
+            MOTOR_SetSpeed(0, -0.2);
+            MOTOR_SetSpeed(1, -0.2);
+        }
+        break;
+        case JAUNE:
+        tourner(45, 1);
+        while (!ROBUS_IsBumper(3))
+        {
+            MOTOR_SetSpeed(0, -0.2);
+            MOTOR_SetSpeed(1, -0.2);
+        }
+        break;
+        default: break;
     }
+    MOTOR_SetSpeed(0,0);
+    MOTOR_SetSpeed(1,0);
 }

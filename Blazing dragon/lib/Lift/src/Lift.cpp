@@ -36,11 +36,11 @@ void trouverBallon()
 }
 
 // la distance est en cm
-void souleverBallon(float distance)
+int souleverBallon(float distance)
 {
     // avancer jusqu'au ballon
     int distanceG = ROBUS_ReadIR(0), distanceD = ROBUS_ReadIR(1)*2;
-    int ajout = 0.1;
+    int angleTotal = 0;
 
     MOTOR_SetSpeed(0, 0.15);
     MOTOR_SetSpeed(1, 0.15);
@@ -49,22 +49,15 @@ void souleverBallon(float distance)
     {
         distanceG = ROBUS_ReadIR(0);
         distanceD = ROBUS_ReadIR(1) * 2;
-        Serial.print("gauche : ");
-        Serial.print(distanceG);
-        Serial.print("droite : ");
-        Serial.print(distanceD);
-        Serial.print("\n");
         if (distanceG < distanceD)
         {
-            /*MOTOR_SetSpeed(1, 0.30);
-            MOTOR_SetSpeed(0, 0.15);*/
             tourner(3, 0);
+            angleTotal -= 3;
         }
         else
         {
-            /*MOTOR_SetSpeed(1, 0.15);
-            MOTOR_SetSpeed(0, 0.30);*/
             tourner(3, 1);
+            angleTotal += 3;
         }
         avancer(3, 0.15);
     }
@@ -75,6 +68,7 @@ void souleverBallon(float distance)
     // monter le lift
     SERVO_SetAngle(0, ANGLE_ELEVATION);
     delay(1000);
+    return angleTotal;
 }
 
 void deposerBallon()
@@ -123,7 +117,7 @@ float placerBallonDroit()
     return distanceBallon;
 }
 
-void attraperBallon()
+int attraperBallon(int robot)
 {
     float distanceCapteur = ROBUS_ReadIR(0);
     float angleTourne = 0;
@@ -136,16 +130,17 @@ void attraperBallon()
         angleTourne += 3;
         direction = 1;
     }
-    angleTourne = 0;
-    while (distanceCapteur < 150 && angleTourne < 60)
+    while (distanceCapteur < 150 && angleTourne > -30)
     {
         tourner(3, 0);
         distanceCapteur = ROBUS_ReadIR(0);
-        angleTourne += 3;
+        angleTourne -= 3;
         direction = 0;
     }
     
     tourner(3, direction);
+    if (direction == 1) angleTourne += 3;
+    else angleTourne -= 3;
     MOTOR_SetSpeed(0, 0.15);
     MOTOR_SetSpeed(1, 0.15);
     
@@ -154,13 +149,16 @@ void attraperBallon()
         distanceCapteur = ROBUS_ReadIR(0);
     }
     delay(1000);
-    SERVO_SetAngle(0, ANGLE_FERME);
+    if (robot == ROBOT_A) SERVO_SetAngle(0, ANGLE_FERME);
+    else SERVO_SetAngle(0, ANGLE_FERMEB);
     delay(500);
     MOTOR_SetSpeed(0, 0);
     MOTOR_SetSpeed(1, 0);
+    return angleTourne;
 }
 
-void lacherBallon()
+void lacherBallon(int robot)
 {
-    SERVO_SetAngle(0, ANGLE_OUVERT);
+    if (robot == ROBOT_A) SERVO_SetAngle(0, ANGLE_OUVERT);
+    else SERVO_SetAngle(0, ANGLE_OUVERTB);
 }

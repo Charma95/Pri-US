@@ -13,4 +13,4 @@
 void SuiveurInit();
 void LireSuiveur() ;
 void SuitLignes();
-
+void enligner(int direction);
