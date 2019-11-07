@@ -44,34 +44,40 @@ void robotA(int couleur)
   if(ROBUS_IsBumper(3))    /* If Tessier fessed the back bumper */
   {
     /* Placer robot dans la bonne couleur*/
-    avancer(39, 0.3);
+    
 
     switch(couleur)
     {
       case ROUGE:
-      tourner(45, 0);
-      avancer(105, 0.3);
+      tourner(33, 0);
+      avancer(133, 0.3);
       attraperBallon(ROBOT_A);
-      tourner(200,0);
-      avancer(105, 0.3);
+      tourner(210,1);
+      avancer(100, 0.3);
+      tourner(70,0);
+      avancer(20,0.3);
       break;
       case VERT:
-      tourner(45, 1);
-      avancer(105, 0.3);
+      tourner(35, 1);
+      avancer(133, 0.3);
       attraperBallon(ROBOT_A);
-      tourner(200,0);
-      avancer(105, 0.3);
+      tourner(210,0);
+      avancer(100, 0.3);
+      tourner(70,1);
+      avancer(20,0.3);
       break;
       case BLEU:
-      tourner(150, 1);
+      avancer(39, 0.3);
+      tourner(148, 1);
       avancer(105, 0.3);
       attraperBallon(ROBOT_A);
-      tourner(193,0);
+      tourner(195,0);
       avancer(105, 0.3);
       break;
       case JAUNE:
-      tourner(146, 0);
-      avancer(105, 0.3);
+      avancer(39,0.3);
+      tourner(144, 0);
+      avancer(97, 0.3);
       attraperBallon(ROBOT_A);
       tourner(200,0);
       avancer(105, 0.3);
@@ -83,7 +89,15 @@ void robotA(int couleur)
     lacherBallon(ROBOT_A);
 
     /* reculer */
-    allerscacher(couleur);
+    if (couleur == ROUGE) 
+    {
+      reculer(70,0.3);
+    }
+    else
+    {
+      allerscacher(couleur);
+    }
+    
     
     delay(120000);
   }
@@ -100,29 +114,29 @@ void robotB(int couleur)
       tourner(93, 0);
       avancer(39,0.3);
       tourner(90,1);
-      avancer(93,0.3);
+      avancer(88,0.3);
       tourner(141,1);
       avancer(35,0.3);
       break;
       case VERT:
-      tourner(90, 1);
+      tourner(92, 1);
       avancer(39,0.3);
-      tourner(90,0);
+      tourner(92,0);
       avancer(93,0.3);
-      tourner(135,0);
-      avancer(45,0.3);
+      tourner(141,0);
+      avancer(32,0.3);
       break;
       case BLEU:
       tourner(90,1);
-      avancer(39,0.3);
+      avancer(35,0.3);
       tourner(135,0);
-      avancer(45,0.3);
+      avancer(24,0.3);
       break;
       case JAUNE:
       tourner(90,0);
       avancer(39,0.3);
-      tourner(135,1);
-      avancer(45,0.3);
+      tourner(140,1);
+      avancer(25,0.3);
       break;
       default: break;
     }
@@ -156,6 +170,7 @@ void robotB(int couleur)
     
     // avancer jusque dans le but
     avancer(125, 0.3);
+    if (couleur == VERT) avancer(5,0.3);
 
     // relacher le ballon
     lacherBallon(ROBOT_B);
@@ -183,12 +198,12 @@ void setup()
   SERVO_Enable(0);
 
   //SERVO_SetAngle(0, ANGLE_FERME);
-  SERVO_SetAngle(0,ANGLE_FERMEB);
+  SERVO_SetAngle(0,ANGLE_OUVERTB);
 }
 
 void loop()
 {
-  //robotA(BLEU);
+  //robotA(JAUNE);
   robotB(ROUGE);
 }
   
