@@ -15,6 +15,7 @@ void SuiveurInit()
 
 void LireSuiveur() 
 {
+    Serial.println(analogRead(A5));
     if (analogRead(A5)<30)
         {
             MOTOR_SetSpeed(1,0.15);

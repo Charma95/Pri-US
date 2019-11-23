@@ -34,8 +34,8 @@ void avancer(float distance, float vitesse)
     //accelerer(V1);
     while(ENCODER_Read(1)<clicMax)
     {
-        MOTOR_SetSpeed(1,V1);
         MOTOR_SetSpeed(0,V0);
+        MOTOR_SetSpeed(1,V1);
         float corr = PID();
         V0 = V0 + corr;
         delay(10);
