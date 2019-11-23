@@ -15,53 +15,44 @@ void SuiveurInit()
 
 void LireSuiveur() 
 {
+    Serial.println(analogRead(A5));
     if (analogRead(A5)<30)
         {
-            corr = 5;
-            etat += etat;
-            milieu = 0;
+            MOTOR_SetSpeed(1,0.15);
+            MOTOR_SetSpeed(0,0.155);
         }
     if ((analogRead(A5)<170) && (analogRead(A5)>130))
         {
-            corr = 25;//50
-            etat += etat;
-            milieu = 0;
+            avancer(3,0.15);
+            tourner(92,1);
         }
     if ((analogRead(A5)<320) && (analogRead(A5)>280))
         {
-            corr = 0;
-            etat += etat;
-            milieu = 0;
+            MOTOR_SetSpeed(1,0);
+            MOTOR_SetSpeed(0,0);
         }
     if ((analogRead(A5)<470) && (analogRead(A5)>430))
         {
-            corr = -50;
-            etat += etat;
-            milieu = 0;
+            tourner(5,1);
         }
     if ((analogRead(A5)<630) && (analogRead(A5)>580))
         {
-            corr = -25;//-50
-            etat += etat;
-            milieu = 0;
+            avancer(3,0.15);
+            tourner(92,0);
         }
     if ((analogRead(A5)<780) && (analogRead(A5)>740))
         {
-            corr = 0;
-            etat += etat;
-            milieu = 1;
+            MOTOR_SetSpeed(1,0.15);
+            MOTOR_SetSpeed(0,0.155);
         }
     if ((analogRead(A5)<930) && (analogRead(A5)>890))
         {
-            corr =  50;//50
-            etat += etat;
-            milieu = 0;
+            tourner(5,0);
         }
     if (analogRead(A5)>1020)
         {
-            corr = 0;
-            etat += etat;
-            milieu = 0;
+            MOTOR_SetSpeed(1,0.15);
+            MOTOR_SetSpeed(0,0.155);
         }
 }
 

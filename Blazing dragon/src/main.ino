@@ -41,6 +41,7 @@ void bluetoothTest()
 }
 void robotA(int couleur)
 {
+  
   if(ROBUS_IsBumper(3))    /* If Tessier fessed the back bumper */
   {
     /* Placer robot dans la bonne couleur*/
@@ -63,8 +64,8 @@ void robotA(int couleur)
       attraperBallon(ROBOT_A);
       tourner(210,0);
       avancer(100, 0.3);
-      tourner(70,1);
-      avancer(20,0.3);
+      tourner(73,1);
+      avancer(26,0.3);
       break;
       case BLEU:
       avancer(39, 0.3);
@@ -108,6 +109,7 @@ void robotB(int couleur)
 {
   if (ROBUS_IsBumper(3))
   {
+    delay(60000);
     switch(couleur)
     {
       case ROUGE:
@@ -194,16 +196,30 @@ void setup()
   BoardInit();
   SuiveurInit();
   Serial.begin(9600); // Setup communication with computer to present results serial monitor
-
-  SERVO_Enable(0);
-
-  //SERVO_SetAngle(0, ANGLE_FERME);
-  SERVO_SetAngle(0,ANGLE_OUVERTB);
 }
 
 void loop()
 {
-  //robotA(JAUNE);
-  robotB(ROUGE);
+  LireSuiveur();
+  /*avancer(25,0.15);
+  delay(2000);
+  avancer(25,0.15);
+  delay(2000);
+  avancer(25,0.15);
+  delay(2000);
+  tourner(94,0);
+  delay(2000);
+  avancer(25,0.15);
+  delay(2000);
+  tourner(94,0);
+  delay(2000);
+  avancer(25,0.15);
+  delay(2000);
+  avancer(25,0.15);
+  delay(2000);
+  avancer(25,0.15);
+  delay(2000);
+  //robotA(VERT);
+  //robotB(ROUGE);*/
 }
   
