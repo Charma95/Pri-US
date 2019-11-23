@@ -14,8 +14,13 @@ Date: Derniere date de modification
 #include "Bluetooth.h"
 #include "Suiveur.h"
 #include "IRsensor.h"
+#include "defiCombattant.h"
+#include "RFIDReader.h"
+#include "detectMetal.h"
 #include <Arduino.h>
 #include <RGB_Sensor.h>
+#include <SPI.h>
+#include <MFRC522.h>
 
 
 /* ****************************************************************************
@@ -25,12 +30,15 @@ Variables globales et defines
 // L'ensemble des fonctions y ont accesdef
 
 #define ONEMINUTE 60000 /* Softimer use milis()*/
+#define RST_PIN         2          // Configurable, see typical pin layout above
+#define SS_PIN          53         // Configurable, see typical pin layout above
 
 
 
 uint16_t red, green, blue, c, colorTemp, lux;
 String msg = "Le bluetooth est fonctionnel Lionel\n";
 ERROR_T Error = NONE;
+MFRC522 mfrc522(SS_PIN, RST_PIN);  // Create MFRC522 instance
 
 
 void bluetoothTest()
@@ -39,131 +47,7 @@ void bluetoothTest()
   //Serial.print(msg);
   delay(2000);
 }
-void robotA(int couleur)
-{
-  if(ROBUS_IsBumper(3))    /* If Tessier fessed the back bumper */
-  {
-    /* Placer robot dans la bonne couleur*/
-    avancer(39, 0.3);
 
-    switch(couleur)
-    {
-      case ROUGE:
-      tourner(45, 0);
-      avancer(105, 0.3);
-      attraperBallon(ROBOT_A);
-      tourner(200,0);
-      avancer(105, 0.3);
-      break;
-      case VERT:
-      tourner(45, 1);
-      avancer(105, 0.3);
-      attraperBallon(ROBOT_A);
-      tourner(200,0);
-      avancer(105, 0.3);
-      break;
-      case BLEU:
-      tourner(150, 1);
-      avancer(105, 0.3);
-      attraperBallon(ROBOT_A);
-      tourner(193,0);
-      avancer(105, 0.3);
-      break;
-      case JAUNE:
-      tourner(146, 0);
-      avancer(105, 0.3);
-      attraperBallon(ROBOT_A);
-      tourner(200,0);
-      avancer(105, 0.3);
-      break;
-      default: break;
-    }
-
-    /* Deposer la balle */
-    lacherBallon(ROBOT_A);
-
-    /* reculer */
-    allerscacher(couleur);
-    
-    delay(120000);
-  }
-  
-}
-
-void robotB(int couleur)
-{
-  if (ROBUS_IsBumper(3))
-  {
-    switch(couleur)
-    {
-      case ROUGE:
-      tourner(93, 0);
-      avancer(39,0.3);
-      tourner(90,1);
-      avancer(93,0.3);
-      tourner(141,1);
-      avancer(35,0.3);
-      break;
-      case VERT:
-      tourner(90, 1);
-      avancer(39,0.3);
-      tourner(90,0);
-      avancer(93,0.3);
-      tourner(135,0);
-      avancer(45,0.3);
-      break;
-      case BLEU:
-      tourner(90,1);
-      avancer(39,0.3);
-      tourner(135,0);
-      avancer(45,0.3);
-      break;
-      case JAUNE:
-      tourner(90,0);
-      avancer(39,0.3);
-      tourner(135,1);
-      avancer(45,0.3);
-      break;
-      default: break;
-    }
-    // trouver le ballon et le prendre
-    int angleTourne = 0;
-    angleTourne = attraperBallon(ROBOT_B);
-    // se réorienter
-    if (angleTourne < -15)
-    {
-      // tourner à droite
-      angleTourne *= -1;
-      tourner(angleTourne + 16, 1);
-    }
-    else if (angleTourne > 15)
-    {
-      // tourner à gauche
-      tourner(angleTourne + 13, 0);
-    }
-    else if (angleTourne < 0)
-    {
-      angleTourne *= -1;
-      tourner(angleTourne + 8, 1);
-    }
-    else if (angleTourne > 0)
-    {
-      // tourner à gauche
-      tourner(angleTourne + 5, 0);
-    }
-
-    
-    
-    // avancer jusque dans le but
-    avancer(125, 0.3);
-
-    // relacher le ballon
-    lacherBallon(ROBOT_B);
-  }
-  //delay(60000);
-  // aller se placer vis à vis la couleur
-  
-}
 
 /* ****************************************************************************
 Fonctions d'initialisation (setup)
@@ -179,16 +63,62 @@ void setup()
   BoardInit();
   SuiveurInit();
   Serial.begin(9600); // Setup communication with computer to present results serial monitor
+  Serial2.begin(9600);
 
-  SERVO_Enable(0);
-
-  //SERVO_SetAngle(0, ANGLE_FERME);
-  SERVO_SetAngle(0,ANGLE_FERMEB);
+  SPI.begin();			// Init SPI bus
+	mfrc522.PCD_Init();		// Init MFRC522
+	delay(4);				// Optional delay. Some board do need more time after init to be ready, see Readme
+	mfrc522.PCD_DumpVersionToSerial();	// Show details of PCD - MFRC522 Card Reader details
+	Serial.println(F("Scan PICC to see UID, SAK, type, and data blocks..."));
 }
 
 void loop()
 {
-  //robotA(BLEU);
-  robotB(ROUGE);
+  delay(2000);
+  while (analogRead(A6) > 200)
+  {
+    LireSuiveur();
+    Serial.println("Recherche de mines");
+    BLUETOOTH_println("Recherche de mines");
+  }
+  
+  Serial.println("Mine detectee");
+  BLUETOOTH_println("Mine detectee");
+  while(!ROBUS_IsBumper(1))
+  {
+    MOTOR_SetSpeed(0, 0);
+    MOTOR_SetSpeed(1, 0);
+  }
+  String uid = "";
+  while(uid == "")
+  {
+    LireSuiveur();
+    uid = LireUID(mfrc522);
+    Serial.println("En attente de la position");
+    BLUETOOTH_println("En attente de la position");
+  }
+  struct position pos;
+  pos = TrouverPosition(uid);
+  Serial.print("La mine se trouve dans la case ");
+  Serial.print(pos.lettre);
+  Serial.println(pos.chiffre);
+  BLUETOOTH_print("La mine se trouve dans la case ");
+  BLUETOOTH_print((String) pos.lettre);
+  BLUETOOTH_println((String) pos.chiffre);
+  MOTOR_SetSpeed(0, 0);
+  MOTOR_SetSpeed(1, 0);
+  //BLUETOOTH_println("puce detectee");
+  delay(2000);
+
+  /*String uid = "";
+  uid = LireUID(mfrc522);
+  struct position pos;
+  pos = TrouverPosition(uid);
+  BLUETOOTH_println(uid);
+  BLUETOOTH_print("La mine se trouve dans la case ");
+  BLUETOOTH_print((String) pos.lettre);
+  BLUETOOTH_println((String) pos.chiffre);
+  delay(1000);*/
+
 }
   

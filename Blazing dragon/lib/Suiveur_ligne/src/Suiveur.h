@@ -1,6 +1,8 @@
 #pragma once
 #define VMOY 0.2
 #define K 200
+
+#include "RFIDReader.h"
 /*struct SL
 {
     int corr;
