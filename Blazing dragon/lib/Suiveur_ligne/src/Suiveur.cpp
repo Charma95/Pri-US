@@ -15,54 +15,54 @@ void SuiveurInit()
 
 void LireSuiveur() 
 {
-    Serial.println(analogRead(A5));
-    if (analogRead(A5)<30)
-        {
-            MOTOR_SetSpeed(1,0.15);
-            MOTOR_SetSpeed(0,0.155);
-        }
-    if ((analogRead(A5)<170) && (analogRead(A5)>130))
-        {
-            avancer(3,0.15);
-            tourner(92,1);
-        }
-    if ((analogRead(A5)<320) && (analogRead(A5)>280))
+    if (analogRead(A9)<30)
         {
             MOTOR_SetSpeed(1,0);
             MOTOR_SetSpeed(0,0);
         }
-    if ((analogRead(A5)<470) && (analogRead(A5)>430))
+    if ((analogRead(A9)<170) && (analogRead(A9)>130))
+        {
+            avancer(3,0.15);
+            tourner(92,1);
+        }
+    if ((analogRead(A9)<320) && (analogRead(A9)>280))
+        {
+            MOTOR_SetSpeed(1,0);
+            MOTOR_SetSpeed(0,0);
+        }
+    if ((analogRead(A9)<470) && (analogRead(A9)>430))
         {
             tourner(5,1);
         }
-    if ((analogRead(A5)<630) && (analogRead(A5)>580))
+    if ((analogRead(A9)<630) && (analogRead(A9)>580))
         {
             avancer(3,0.15);
             tourner(92,0);
         }
-    if ((analogRead(A5)<780) && (analogRead(A5)>740))
+    if ((analogRead(A9)<780) && (analogRead(A9)>740))
         {
             MOTOR_SetSpeed(1,0.15);
             MOTOR_SetSpeed(0,0.155);
         }
-    if ((analogRead(A5)<930) && (analogRead(A5)>890))
+    if ((analogRead(A9)<930) && (analogRead(A9)>890))
         {
             tourner(5,0);
         }
-    if (analogRead(A5)>1020)
+    if (analogRead(A9)>1020)
         {
             MOTOR_SetSpeed(1,0.15);
             MOTOR_SetSpeed(0,0.155);
         }
+        delay(50);
 }
 
 void SuitLignes()
 {   
     //LireSuiveur();
-    Serial.print(analogRead(A5));
+    Serial.print(analogRead(A9));
     Serial.print("  ");
     Serial.println(corr);
-    Serial.println(analogRead(A5));
+    Serial.println(analogRead(A9));
     if (corr == 5)
     {
         MOTOR_SetSpeed(0,0);
@@ -78,20 +78,20 @@ void enligner(int direction)
 {
     // avancer tant qu'il ne croise pas de ligne
     //LireSuiveur();
-    Serial.println(analogRead(A5));
-    while (analogRead(A5) > 1020)
+    Serial.println(analogRead(A9));
+    while (analogRead(A9) > 1020)
     {
         //LireSuiveur();
-        Serial.println(analogRead(A5));
+        Serial.println(analogRead(A9));
         MOTOR_SetSpeed(0, 0.15);
         MOTOR_SetSpeed(1, 0.15);
         delay(100);
     }
 
-    if ((analogRead(A5)<930) && (analogRead(A5)>890))
+    if ((analogRead(A9)<930) && (analogRead(A9)>890))
     {
         //LireSuiveur();
-         while (analogRead(A5) > 1020)
+         while (analogRead(A9) > 1020)
         {
             MOTOR_SetSpeed(0, 0.15);
             MOTOR_SetSpeed(1, 0.15);
@@ -111,9 +111,9 @@ void enligner(int direction)
     }
     else
     {
-        //Serial.println(analogRead(A5));
+        //Serial.println(analogRead(A9));
         //LireSuiveur();
-         while (analogRead(A5) > 1020);
+         while (analogRead(A9) > 1020);
         {
             MOTOR_SetSpeed(0, 0.15);
             MOTOR_SetSpeed(1, 0.15);
