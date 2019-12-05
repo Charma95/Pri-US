@@ -34,8 +34,8 @@ void avancer(float distance, float vitesse)
     //accelerer(V1);
     while(ENCODER_Read(1)<clicMax)
     {
-        MOTOR_SetSpeed(1,V1);
         MOTOR_SetSpeed(0,V0);
+        MOTOR_SetSpeed(1,V1);
         float corr = PID();
         V0 = V0 + corr;
         delay(10);
@@ -129,43 +129,29 @@ void tourner(float angleDegree, int direction)
 
 void allerscacher (int couleur)
 {
-    reculer(15, 0.3);
+    reculer(30, 0.3);
+    delay(1000);
     switch(couleur)
     {
         case ROUGE:
         tourner(45, 0);
-        while (!ROBUS_IsBumper(3))
-        {
-            MOTOR_SetSpeed(0, -0.2);
-            MOTOR_SetSpeed(1, -0.2);
-        }
+        
         break;
         case VERT:
         tourner(45, 1);
-        while (!ROBUS_IsBumper(3))
-        {
-            MOTOR_SetSpeed(0, -0.2);
-            MOTOR_SetSpeed(1, -0.2);
-        }
+        
         break;
         case BLEU:
         tourner(45, 0);
-        while (!ROBUS_IsBumper(3))
-        {
-            MOTOR_SetSpeed(0, -0.2);
-            MOTOR_SetSpeed(1, -0.2);
-        }
+        
         break;
         case JAUNE:
         tourner(45, 1);
-        while (!ROBUS_IsBumper(3))
-        {
-            MOTOR_SetSpeed(0, -0.2);
-            MOTOR_SetSpeed(1, -0.2);
-        }
+        
         break;
         default: break;
     }
+    reculer(70, 0.3);
     MOTOR_SetSpeed(0,0);
     MOTOR_SetSpeed(1,0);
 }

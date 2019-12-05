@@ -5,7 +5,7 @@
 #define ANGLE_OUVERT 180
 #define ANGLE_OUVERTB 90
 #define ANGLE_FERME 135
-#define ANGLE_FERMEB 45
+#define ANGLE_FERMEB 50
 #define DISTANCE_CENTRE_IR 5
 #define ROBOT_A 0
 #define ROBOT_B 1
