@@ -3,71 +3,72 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 using System.IO.Ports;
+using System.Windows.Forms;
 
 namespace CrouchingTiger
 {
     class Bluetooth
     {
         SerialPort _sp = new SerialPort();
-
-        public enum Errors
-        {
-            NONE,
-            INIT_ERROR,
-            BUFFER_OVERFLOW,
-            SEND_ERROR,
-            READ_ERROR
-        }
-
-        public Errors InitBluetooth()
+        
+        public Bluetooth()
         {
             
+        }
+        //public void resetPort()
+        //{
 
-            Errors errorBt = Errors.NONE;
+        //}
+        public void BluetoothInit(string portName)
+        {
+           
 
-            _sp.PortName = "COM10";   /* This is the port that I set in the bluetooth settings */
-            _sp.BaudRate = 38400;
-            _sp.Parity = Parity.None;
-            _sp.StopBits = StopBits.One;
+            /* Setting port parameters */
+            _sp.PortName = portName;
+            _sp.BaudRate = 9600;
+            _sp.Parity = 0;
             _sp.DataBits = 8;
+            _sp.StopBits = StopBits.One;
             _sp.Handshake = Handshake.None;
+
+            _sp.WriteTimeout = 4000;
+            _sp.ReadTimeout = 5000;
             _sp.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);
 
-            _sp.ReadTimeout = 1000;
-            _sp.WriteTimeout = 1000;
-
-            _sp.Open();
-
-            if (_sp.IsOpen != true)
+            if(_sp.IsOpen)
             {
-                errorBt = Errors.INIT_ERROR;
+                MessageBox.Show("This port is already used");
             }
-            return errorBt;
+            else
+            {
+                _sp.Open();
+            }
+
+        }
+        public void closeBluetooth()
+        {
+            _sp.Close();
         }
 
         private void DataReceivedHandler(object sender, SerialDataReceivedEventArgs e)
         {
-            indata += _sp.ReadExisting();
-            
+            MineTrace mine = new MineTrace();
+            Indata = (string)_sp.ReadExisting();
+            if (Indata != null)
+            {
+               // mine.MoveMine();
+            }
         }
 
-        public Errors readBluetooth()
+        public void BluetoothWrite(string text)
         {
-            MineTrace _mine = new MineTrace();
-            _mine.rtbOutput.Text += indata;
-            return Errors.NONE;
-        }
-
-        Errors writeBluetooth(string message, int length)
-        {
-            Errors errors = Errors.NONE;
-            
-
-            return errors;
+            _sp.Write(text);
         }
 
         private string indata;
-        
+
+        public string Indata { get => indata; set => indata = value; }
     }
 }

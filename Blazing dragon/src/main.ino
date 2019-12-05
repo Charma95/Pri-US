@@ -38,14 +38,14 @@ Variables globales et defines
 
 
 uint16_t red, green, blue, c, colorTemp, lux;
-String msg = "Le bluetooth est fonctionnel Lionel\n";
+String msg = "A7\n";
 ERROR_T Error = NONE;
 MFRC522 mfrc522(SS_PIN, RST_PIN);  // Create MFRC522 instance
 
 
 void bluetoothTest()
 {
- BLUETOOTH_println(msg);   /* ne fonctionne pas faudrait voir les pins*/
+ BLUETOOTH_println(msg);   
   //Serial.print(msg);
   delay(2000);
 }
@@ -63,7 +63,6 @@ Fonctions d'initialisation (setup)
 void setup()
 {
   BoardInit();
-  SuiveurInit();
   Serial.begin(9600); // Setup communication with computer to present results serial monitor
   Serial2.begin(9600);
   pinMode(GREEN_PIN, OUTPUT); // vert
@@ -74,7 +73,6 @@ void setup()
 	delay(4);				// Optional delay. Some board do need more time after init to be ready, see Readme
 	mfrc522.PCD_DumpVersionToSerial();	// Show details of PCD - MFRC522 Card Reader details
   digitalWrite(GREEN_PIN, HIGH);
-  digitalWrite(RED_PIN, HIGH);
 }
 
 void loop()
