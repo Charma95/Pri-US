@@ -24,18 +24,17 @@ Variables globales et defines
 // -> defines...
 // L'ensemble des fonctions y ont accesdef
 
-#define ONEMINUTE 60000 /* Softimer use milis()*/
 
 
 
 uint16_t red, green, blue, c, colorTemp, lux;
-String msg = "Le bluetooth est fonctionnel Lionel\n";
+String msg = "A7\n";
 ERROR_T Error = NONE;
 
 
 void bluetoothTest()
 {
- BLUETOOTH_println(msg);   /* ne fonctionne pas faudrait voir les pins*/
+ BLUETOOTH_println(msg);   
   //Serial.print(msg);
   delay(2000);
 }
@@ -151,16 +150,13 @@ Fonctions d'initialisation (setup)
 void setup()
 {
   BoardInit();
-  SuiveurInit();
   Serial.begin(9600); // Setup communication with computer to present results serial monitor
-
-  SERVO_Enable(0);
+  Serial2.begin(9600);
 }
 
 void loop()
 {
-  robotB(ROUGE);
-
-  delay(10000);
+  bluetoothTest();
+  delay(2000);
 }
   
