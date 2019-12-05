@@ -3,7 +3,6 @@
 void Demineur(MFRC522 mfrc522)
 {
     String position = "";
-    delay(2000);
     
     while (analogRead(A6) > 200)
     {
@@ -43,5 +42,4 @@ void Demineur(MFRC522 mfrc522)
     BLUETOOTH_println(position);
     MOTOR_SetSpeed(0, 0);
     MOTOR_SetSpeed(1, 0);
-    delay(2000);
 }
